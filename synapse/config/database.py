@@ -15,6 +15,7 @@
 import logging
 import os
 from textwrap import indent
+from typing import Dict
 
 import yaml
 
@@ -40,7 +41,7 @@ class DatabaseConfig(Config):
                 "Cannot specify both 'database' and 'databases' config options"
             )
 
-        self.databases = {}
+        self.databases = {}  # type: Dict[str, DatabaseConnectionConfig]
         if "databases" in config:
             # New, experimental, databases section.
 
