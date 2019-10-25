@@ -52,8 +52,8 @@ class StateGroupDataStore(StateGroupBackgroundUpdateStore, SQLBaseStore):
     """A data store for fetching/storing state groups.
     """
 
-    def __init__(self, db_conn, hs):
-        super(StateGroupDataStore, self).__init__(db_conn, hs)
+    def __init__(self, database, db_conn, hs):
+        super(StateGroupDataStore, self).__init__(database, db_conn, hs)
 
         # Originally the state store used a single DictionaryCache to cache the
         # event IDs for the state types in a given state group to avoid hammering
