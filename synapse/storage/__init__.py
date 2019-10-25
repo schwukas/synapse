@@ -51,15 +51,3 @@ class Storage(object):
         self.persistence = EventsPersistenceStore(hs, stores)
         self.state = StateGroupStorage(hs, stores)
         self.purge_events = PurgeEventsStorage(hs, stores)
-
-
-def are_all_users_on_domain(txn, database_engine, domain):
-    sql = database_engine.convert_param_style(
-        "SELECT COUNT(*) FROM users WHERE name NOT LIKE ?"
-    )
-    pat = "%:" + domain
-    txn.execute(sql, (pat,))
-    num_not_matching = txn.fetchall()[0][0]
-    if num_not_matching == 0:
-        return True
-    return False

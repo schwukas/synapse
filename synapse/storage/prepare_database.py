@@ -41,7 +41,7 @@ class UpgradeDatabaseException(PrepareDatabaseException):
     pass
 
 
-def prepare_database(db_conn, database_engine, config):
+def prepare_database(db_conn, database_engine, config, data_stores=["main", "state"]):
     """Prepares a database for usage. Will either create all necessary tables
     or upgrade from an older schema version.
 
@@ -55,10 +55,6 @@ def prepare_database(db_conn, database_engine, config):
             application config, or None if we are connecting to an existing
             database which we expect to be configured already
     """
-
-    # For now we only have the one datastore.
-    data_stores = ["main", "state"]
-
     try:
         cur = db_conn.cursor()
         version_info = _get_or_create_schema_state(cur, database_engine)
