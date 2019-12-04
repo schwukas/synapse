@@ -366,7 +366,7 @@ class RoomStore(RoomWorkerStore, SearchStore):
 
         self.config = hs.config
 
-        self.register_background_update_handler(
+        self.db.updates.register_background_update_handler(
             "insert_room_retention", self._background_insert_retention,
         )
 
@@ -420,7 +420,7 @@ class RoomStore(RoomWorkerStore, SearchStore):
 
             logger.info("Inserted %d rows into room_retention", len(rows))
 
-            self._background_update_progress_txn(
+            self.db.updates._background_update_progress_txn(
                 txn, "insert_room_retention", {"room_id": rows[-1]["room_id"]}
             )
 
@@ -434,7 +434,7 @@ class RoomStore(RoomWorkerStore, SearchStore):
         )
 
         if end:
-            yield self._end_background_update("insert_room_retention")
+            yield self.db.updates._end_background_update("insert_room_retention")
 
         defer.returnValue(batch_size)
 
